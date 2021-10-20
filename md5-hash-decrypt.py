@@ -31,14 +31,14 @@ def checkmd5(hash):
 	print(current_time("date-time")+" [i] Checking hash value on md5decrypt.net")
 	data_payload={'87':'', 'decrypt':'Decrypt', 'hash':hash}
 	response=s.post('https://md5decrypt.net/en/', data=data_payload, allow_redirects=True, timeout=30)
-	op=re.compile(r'</div><br/>'+hash+' : <b>(.*?)</b><br/><br/>(.*?)<br/><br/>').findall(response.text)
-	# print(response.text)
+	op=re.compile(r'</script></span></span><br>'+hash+' : <b>(.*?)</b><br><br>Found').findall(response.text)
+	#print(response.text)
 	if response.status_code!=200:
 		print(current_time("date-time")+" [X] Unable to get response from md5decrypt.net, Response Code",response.status_code)
 	elif "Found" not in response.text or op==[]:
 		print(current_time("date-time")+" [X] Not found on md5decrypt.net")
 	else:
-		print(current_time("date-time")+" [+] Hash found:",op[0][0],"- ", op[0][1])
+		print(current_time("date-time")+" [+] Hash found: \"" + op[0] + "\"")
 	s.cookies.clear()
 	
 	# CHECKING HASH VALUE ON hashtoolkit.com
