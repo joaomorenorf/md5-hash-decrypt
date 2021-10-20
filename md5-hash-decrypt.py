@@ -57,6 +57,7 @@ def checkmd5(hash):
 		print(current_time("date-time")+" [+] Hash found: \"" + op[0] + "\"")
 	s.cookies.clear()
 	
+	"""
 	# CHECKING HASH VALUE ON hashkiller.co.uk
 	s=requests.Session()
 	print(current_time("date-time")+" [i] Checking hash value on hashkiller.co.uk")
@@ -144,6 +145,7 @@ def checkmd5(hash):
 	else:
 		op=re.compile(r'<span id="content1_lblResults" class="results">'+hash+' MD5 : <span class="text-green">(.*?)</span><br />').findall(response.text)
 		print(current_time("date-time")+" [+] Hash found:",op[0])
+	"""
 	
 if len (sys.argv) != 2 :
     print("Usage: python md5decrypt.py <hash>")
