@@ -43,15 +43,18 @@ def checkmd5(hash):
 	
 	# CHECKING HASH VALUE ON hashtoolkit.com
 	print(current_time("date-time")+" [i] Checking hash value on hashtoolkit.com")
-	data_payload={'hash':hash}
-	response=s.get('https://hashtoolkit.com/reverse-hash?hash='+hash, data=data_payload, allow_redirects=True, timeout=30)
-	op=re.compile(r'title="decrypted md5 hash">(.*?)</span>').findall(response.text)
+	header_payload={
+	'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:62.0) Gecko/20100101 Firefox/62.0',
+	}
+	response=s.get('https://hashtoolkit.com/decrypt-hash?hash='+hash, headers=header_payload, allow_redirects=True, timeout=30)
+	op1=re.compile(r'title="decrypted md5 hash">(.*?)</span>').findall(response.text)
+	op=re.compile(r'>(.*?)<').findall(op1[0])
 	if response.status_code!=200:
 		print(current_time("date-time")+" [X] Unable to get response from hashtoolkit.com, Response Code",response.status_code)
 	elif "No hashes found" in response.text or op==[]:
 		print(current_time("date-time")+" [X] Not found on hashtoolkit.com")
 	else:
-		print(current_time("date-time")+" [+] Hash found:",op[0])
+		print(current_time("date-time")+" [+] Hash found: \"" + op[0] + "\"")
 	s.cookies.clear()
 	
 	# CHECKING HASH VALUE ON hashkiller.co.uk
